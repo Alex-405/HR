@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue Management System</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        #queueList { margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<h2>Queue Management System</h2>
+<div>
+    <input type="text" id="nameInput" placeholder="Enter your name">
+    <button onclick="joinQueue()">Join Queue</button>
+</div>
+<div>
+    <input type="text" id="leaveNameInput" placeholder="Name to leave queue">
+    <button onclick="leaveQueueByName()">Leave Queue By Name</button>
+</div>
+<button onclick="showQueue()">Show Queue</button>
+<button onclick="resetQueue()">Reset Queue (Admin)</button>
+
+<div id="queueList">No one is in line.</div>
+
+<script>
+let queue = [];
+
+function joinQueue() {
+    const name = document.getElementById('nameInput').value.trim();
+    if (name) {
+        queue.push(name);
+        document.getElementById('nameInput').value = ''; // Clear input after adding
+        updateQueueList();
+    }
+}
+
+function leaveQueueByName() {
+    const name = document.getElementById('leaveNameInput').value.trim();
+    const index = queue.indexOf(name);
+    if (index > -1) {
+        queue.splice(index, 1);
+        document.getElementById('leaveNameInput').value = ''; // Clear input after removing
+        updateQueueList();
+    } else {
+        alert('Name not found in queue.');
+    }
+}
+
+function showQueue() {
+    updateQueueList();
+}
+
+function resetQueue() {
+    const password = prompt('Enter admin password:');
+    if (password === '1120') {
+        queue = [];
+        updateQueueList();
+    } else {
+        alert('Incorrect password.');
+    }
+}
+
+function updateQueueList() {
+    const queueList = document.getElementById('queueList');
+    if (queue.length > 0) {
+        queueList.innerHTML = 'Queue: ' + queue.join(', ');
+    } else {
+        queueList.innerHTML = 'No one is in line.';
+    }
+}
+</script>
+
+</body>
+</html>
